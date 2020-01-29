@@ -28,6 +28,7 @@ public class jumpMotor : MonoBehaviour
 
 	public Camera camera;
 	private float cameraRotX = 0.0f;
+	public float clampDown = 85f;    
 	
 
 	public CharacterController controller;
@@ -88,11 +89,16 @@ public class jumpMotor : MonoBehaviour
 		lastDirection = moveDirection;
 	}
 
+	public void RotateCamera(float _cameraRotationX)
+	{
+		cameraRotX = _cameraRotationX;
+	}
 	// Update camera and rotation based on mouse movent
 	void StandardCameraUpdate()
 	{
 		transform.Rotate(0f, (Input.GetAxis("Mouse X") * MouseSensitivity) * TurnSpeed * Time.deltaTime, 0f);
 		cameraRotX -= Input.GetAxis("Mouse Y") * MouseSensitivity;
+		cameraRotX = Mathf.Clamp(cameraRotX, -clampDown, clampDown);
 
 		camera.transform.forward = transform.forward;
 
